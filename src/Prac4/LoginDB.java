@@ -19,13 +19,18 @@ import java.sql.SQLException;
  */
 public class LoginDB implements ActionListener {
 
-    JFrame jf;
+    static JFrame jf;
     JMenu menu;
-    JMenuItem LoginMenu, SignMenu,Update,ShowData;
-    CardLayout card;
-    Connection con;
+    public static int j;
+    JMenuItem LoginMenu;
+    JMenuItem SignMenu;
+    JMenuItem Update;
+    JMenuItem ShowData;
+    static CardLayout card;
+    static Connection con;
     JPanel p4;
-        public static boolean flag=false;
+    public static boolean flag;
+        //public static boolean flag=false;
     public LoginDB() {
         card = new CardLayout();
         jf = new JFrame("LoginDB");
@@ -60,6 +65,16 @@ public class LoginDB implements ActionListener {
         Update.addActionListener(this);
         ShowData.addActionListener(this);
 
+
+        SignUp.jb.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("from LoginDB");
+                LoginDB.PushIntoDB(1);
+            }
+        });
+        /*
         SignUp.jb.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -121,6 +136,8 @@ public class LoginDB implements ActionListener {
 
             }
         });
+            */
+
 
         Login.jb.addActionListener(new ActionListener() {
             @Override
@@ -169,6 +186,97 @@ public class LoginDB implements ActionListener {
 
     public static void main(String args[]) {
         LoginDB ldb = new LoginDB();
+    }
+
+    public static void CheckOperation() {
+        try {
+            con = DriverClass.getConnection();
+            PreparedStatement ps = con.prepareStatement("select * from st where email=?");
+            ps.setString(1, UpdateData.UserName);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                SignUp.FirstName.setText(rs.getString(1));
+                SignUp.LastName.setText(rs.getString(2));
+                SignUp.Email.setText(rs.getString(3));
+                SignUp.Password.setText(rs.getString(4));
+                SignUp.ErNumber.setText(rs.getString(5));
+                SignUp.Age.setText(rs.getString(6));
+                String radioB = rs.getString(7);
+                if (radioB == "male") {
+                    SignUp.b1.getSelectedIcon();
+                    //continue;
+                }
+                else {
+                    SignUp.b2.getSelectedIcon();
+                }
+
+
+            }
+        }
+        catch (Exception eep) {
+            eep.printStackTrace();
+        }
+    }
+
+    public static void PushIntoDB(int j) {
+        String FirstName = SignUp.FirstName.getText();
+        String LastName = SignUp.LastName.getText();
+        String Email = SignUp.Email.getText();
+        String password = SignUp.Password.getText();
+        String erNumber = SignUp.ErNumber.getText();
+        String age = SignUp.Age.getText();
+        String Gender = SignUp.b1.isSelected() ? "Male" : "Female";
+        System.out.println(FirstName);
+        System.out.println(LastName);
+        System.out.println(Email);
+        System.out.println(password);
+        System.out.println(erNumber);
+        System.out.println(age);
+        System.out.println(Gender);
+        try {
+            con = DriverClass.getConnection();
+            if (j == 0) {
+                PreparedStatement ps = con.prepareStatement("update st SET firstName=?,lastName = ?,email =?,password =? ,erNumber =? ,age =?, gen = ? where email=?");
+                ps.setString(1, FirstName);
+                ps.setString(2, LastName);
+                ps.setString(3, Email);
+                ps.setString(4, password);
+                ps.setString(5, erNumber);
+                ps.setString(6, age);
+                ps.setString(7, Gender);
+                ps.setString(8, UpdateData.UserName);
+                int i = ps.executeUpdate();
+                if (i >= 1) {
+                    JOptionPane.showMessageDialog(jf, "Data sucessfully updated");
+                } else {
+                    JOptionPane.showMessageDialog(jf, "Somethings going Wrong");
+                }
+            } else {
+                PreparedStatement ps = con.prepareStatement("insert into st values (?,?,?,?,?,?,?)");
+                ps.setString(1, FirstName);
+                ps.setString(2, LastName);
+                ps.setString(3, Email);
+                ps.setString(4, password);
+                ps.setString(5, erNumber);
+                ps.setString(6, age);
+                ps.setString(7, Gender);
+                int i = ps.executeUpdate();
+                if (i >= 1) {
+                    card.show(jf.getContentPane(), "2");
+                    SignUp.FirstName.setText("");
+                    SignUp.LastName.setText("");
+                    SignUp.Password.setText("");
+                    SignUp.ErNumber.setText("");
+                    SignUp.Age.setText("");
+                    SignUp.Email.setText("");
+                } else {
+                    JOptionPane.showMessageDialog(jf, "Somethings going Wrong");
+                }
+            }
+        }
+        catch (Exception E) {
+            E.printStackTrace();
+        }
     }
 
     @Override
