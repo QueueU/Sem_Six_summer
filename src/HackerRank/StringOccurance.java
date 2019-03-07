@@ -12,7 +12,7 @@ public class StringOccurance {
         String str=sc.next();
 
         char ch[]=str.toCharArray();
-        int a[]=new int[10];
+        //int a[]=new int[];
 
         ArrayList<Character> al=new ArrayList<Character>();
 
@@ -22,7 +22,7 @@ public class StringOccurance {
         {
             al.add(ch[i]);
         }
-
+    boolean check=false;
 
         for(int i=0;i<al.size();i++)
         {
@@ -39,26 +39,48 @@ public class StringOccurance {
                    // System.out.println(al.get(i) + " : "+i+" ::: "+ j +" : " +al.get(j) );
 
 
-                    a[Integer.parseInt(String.valueOf(al.get(i)))]+=1;
+                   // a[Integer.parseInt(String.valueOf(al.get(i)))]+=1;
                     al.remove(j);
                    // System.out.println("Value of a :"+al.get(i)+" :: "+a[Integer.parseInt(String.valueOf(al.get(i)))]);
+
+                    check=true;
                     j--;
 
+                    break;
+
+                }
+                else
+                {
+                    check=false;
                 }
             }
 
+            if(check==false)
+            {
+                break;
+            }
 
-                    a[Integer.parseInt(String.valueOf(al.get(i)))] += 1;
+
+                    //a[Integer.parseInt(String.valueOf(al.get(i)))] += 1;
 
 
         }
 
-
+/*
         for(int i=0;i<a.length;i++)
         {
             System.out.println(i + " " + a[i]);
         }
+*/
 
+if(check)
+{
+    System.out.println("YES");
+}
+else
+{
+    System.out.println("NO");
+}
 
 
 

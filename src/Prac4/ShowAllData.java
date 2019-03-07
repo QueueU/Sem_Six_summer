@@ -34,7 +34,7 @@ public class ShowAllData extends JPanel{
 
         public void GetData() {
             String data[][]=null;
-        String column[] = new String[]{"FirstName", "LastName", "Eamil", "password", "erNumber", "age", "Gender"};
+        String column[] = {"FirstName", "LastName", "Eamil", "password", "erNumber", "age", "Gender"};
         try {
             Connection con = DriverClass.getConnection();
             Statement st = con.createStatement();
