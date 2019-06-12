@@ -31,11 +31,11 @@ public class BST {
 
     }
 
-    public void addNode(int key, String name) {
+    public void addNode(int key) {
 
 
 
-        Node newNode = new Node(key, name);
+        Node newNode = new Node(key);
 
         if (root == null) {
 
@@ -179,7 +179,7 @@ public class BST {
 
     public void InsertIntoList(int data)
     {
-        NodeTwo new_node = new NodeTwo();
+        NodeTwo new_node = new NodeTwo(data,5);
         new_node.data=data;
 
         new_node.next = head;
@@ -386,7 +386,7 @@ public class BST {
                     System.out.println("Enter Key First:");
                     key = li.input.nextInt();
 
-                    li.addNode(key, name);
+                    li.addNode(key);
 
                     break;
                 case 2:

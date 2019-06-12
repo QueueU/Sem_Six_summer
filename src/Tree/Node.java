@@ -10,9 +10,9 @@ public class Node {
     static int arr[];
    public static int ii=0;
 
-    Node(int key,String name)
+    Node(int key)
     {this.key=key;
-    this.name=name;
+   // this.name=name;
 
     }
 
